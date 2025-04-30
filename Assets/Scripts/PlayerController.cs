@@ -9,9 +9,14 @@ public class PlayerController : MonoBehaviour
     public BoxCollider2D boxCollider;
     public Vector2 BoxCollisionInitialOffset;
     public Vector2 BoxCollisionInitialSize;
+    public Transform GroundCheck;
+    public LayerMask GroundLayer;
+    private Rigidbody2D rb;
+
+    private bool IsGrounded;
     public float Speed = 8;
     public float Jump;
-    private Rigidbody2D rb;
+    public float GroundCheckRadius = 0.2f;
 
     private void Awake()
     {
@@ -27,15 +32,15 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        IsGrounded = Physics2D.OverlapCircle(GroundCheck.position, GroundCheckRadius, GroundLayer);
         float Horizontal = Input.GetAxisRaw("Horizontal");
-        float Vertical = Input.GetAxis("Jump");
-        MoveCharacter(Horizontal, Vertical);
+        MoveCharacter(Horizontal);
         PlayerMovementAnimation(Horizontal);
         PlayerCrouchAnimation();
-        PlayerJumpAnimation(Vertical);
+        PlayerJumpAnimation();
     }
 
-    private void MoveCharacter(float Horizontal, float Vertical)
+    private void MoveCharacter(float Horizontal)
     {
         // Move Character Horizontally
         Vector3 Position = transform.position;
@@ -43,9 +48,9 @@ public class PlayerController : MonoBehaviour
         transform.position = Position;
 
         // Move Character Vertically
-        if (Vertical > 0)
+        if (Input.GetButtonDown("Jump") && IsGrounded)
         {
-            rb.AddForce(new Vector2(0f, Jump), ForceMode2D.Force);
+            rb.AddForce(new Vector2(0f, Jump), ForceMode2D.Impulse);
         }
     }
 
@@ -86,9 +91,9 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("Crouch", Crouch);
     }
 
-    private void PlayerJumpAnimation(float Vertical)
+    private void PlayerJumpAnimation()
     {
-        if (Vertical > 0)
+        if (Input.GetButtonDown("Jump"))
         {
             animator.SetBool("Jump", true);
         }
