@@ -1,3 +1,4 @@
+using System;
 using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -5,57 +6,98 @@ using UnityEngine.UIElements;
 public class PlayerController : MonoBehaviour
 {
     public Animator animator; 
+    public BoxCollider2D boxCollider;
+    public Vector2 BoxCollisionInitialOffset;
+    public Vector2 BoxCollisionInitialSize;
+    public Transform GroundCheck;
+    public LayerMask GroundLayer;
+    private Rigidbody2D rb;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private bool IsGrounded;
+    public float Speed = 8;
+    public float Jump;
+    public float GroundCheckRadius = 0.2f;
+
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
+
     void Start()
     {
+        BoxCollisionInitialOffset = boxCollider.offset;
+        BoxCollisionInitialSize = boxCollider.size;
     }
 
     // Update is called once per frame
     void Update()
     {
-        PlayerMovement();
-        PlayerCrouch();
-        PlayerJump();
+        IsGrounded = Physics2D.OverlapCircle(GroundCheck.position, GroundCheckRadius, GroundLayer);
+        float Horizontal = Input.GetAxisRaw("Horizontal");
+        MoveCharacter(Horizontal);
+        PlayerMovementAnimation(Horizontal);
+        PlayerCrouchAnimation();
+        PlayerJumpAnimation();
     }
 
-    private void PlayerMovement()
+    private void MoveCharacter(float Horizontal)
     {
-        float Speed = Input.GetAxisRaw("Horizontal");
-        animator.SetFloat("Speed", Mathf.Abs(Speed));
+        // Move Character Horizontally
+        Vector3 Position = transform.position;
+        Position.x += Horizontal * Speed * Time.deltaTime;
+        transform.position = Position;
+
+        // Move Character Vertically
+        if (Input.GetButtonDown("Jump") && IsGrounded)
+        {
+            rb.AddForce(new Vector2(0f, Jump), ForceMode2D.Impulse);
+        }
+    }
+
+    private void PlayerMovementAnimation(float Horizontal)
+    {
+        animator.SetFloat("Speed", Mathf.Abs(Horizontal));
         Vector3 scale = transform.localScale;
-        if (Speed < 0)
+        if (Horizontal < 0)
         {
             scale.x = -1 * Mathf.Abs(scale.x);
         }
-        else if (Speed > 0)
+        else if (Horizontal > 0)
         {
             scale.x = Mathf.Abs(scale.x);
         }
         transform.localScale = scale;
     }
 
-    private void PlayerCrouch()
+    private void PlayerCrouchAnimation()
     {
         bool Crouch = Input.GetKey(KeyCode.LeftControl);
         if(Crouch)
         {
-            animator.SetBool("Crouch", true);
+            float NewOffsetY = 0.60345f;
+            float NewOffsetX = 0.027414f;
+
+            float NewSizeY = 0.67524f;
+            float NewSizeX = 1.3595f;
+
+            boxCollider.offset = new Vector2(NewOffsetX, NewOffsetY);
+            boxCollider.size = new Vector2(NewSizeX, NewSizeY);
         }
         else
         {
-            animator.SetBool("Crouch", false);
+            boxCollider.offset = BoxCollisionInitialOffset;
+            boxCollider.size = BoxCollisionInitialSize;
         }
+        animator.SetBool("Crouch", Crouch);
     }
 
-    private void PlayerJump()
+    private void PlayerJumpAnimation()
     {
-        float Vertical = Input.GetAxisRaw("Vertical");
-        if (Vertical > 0)
+        if (Input.GetButtonDown("Jump"))
         {
             animator.SetBool("Jump", true);
         }
-        else if (Vertical <= 0)
+        else
         {
             animator.SetBool("Jump", false);
         }
