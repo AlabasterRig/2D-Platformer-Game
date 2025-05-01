@@ -43,9 +43,12 @@ public class PlayerController : MonoBehaviour
     private void MoveCharacter(float Horizontal)
     {
         // Move Character Horizontally
-        Vector3 Position = transform.position;
-        Position.x += Horizontal * Speed * Time.deltaTime;
-        transform.position = Position;
+        if (IsGrounded)
+        {
+            Vector3 Position = transform.position;
+            Position.x += Horizontal * Speed * Time.deltaTime;
+            transform.position = Position;
+        }
 
         // Move Character Vertically
         if (Input.GetButtonDown("Jump") && IsGrounded)
