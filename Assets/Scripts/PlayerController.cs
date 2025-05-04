@@ -20,6 +20,9 @@ public class PlayerController : MonoBehaviour
     public float Jump;
     public float GroundCheckRadius = 0.2f;
 
+    public int Health = 3;
+    public int MaxHealth = 3;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -127,5 +130,14 @@ public class PlayerController : MonoBehaviour
     public void RestartLevel()
     {
         levelController.ReloadLevel();
+    }
+
+    public void TakeDamage(int damage)
+    {
+        Health -= damage;
+        if (Health <= 0)
+        {
+            KillPlayer();
+        }
     }
 }
