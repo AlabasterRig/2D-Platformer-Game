@@ -11,4 +11,10 @@ public class LevelController : MonoBehaviour
             Debug.Log("Scene Restarted");
         }
     }
+
+    public void ReloadLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        Debug.Log("Scene Restarted");
+    }
 }

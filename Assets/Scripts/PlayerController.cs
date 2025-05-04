@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
 
     public ScoreController scoreController;
+    public LevelController levelController;
     private bool IsGrounded;
     public float Speed = 8;
     public float Jump;
@@ -110,5 +111,21 @@ public class PlayerController : MonoBehaviour
     public void PickUpKey()
     {
         scoreController.IncreaseScore(10);
+    }
+
+    public void KillPlayer()
+    {
+        if (!animator.GetBool("IsDead"))
+        {
+            Debug.Log("Player is dead");
+            animator.SetTrigger("Death");
+            animator.SetBool("IsDead", true);
+        }
+        RestartLevel();
+    }
+
+    public void RestartLevel()
+    {
+        levelController.ReloadLevel();
     }
 }
