@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
 
     public ScoreController scoreController;
     public LevelController levelController;
+    public GameOverController gameOverController;
     private bool IsGrounded;
     public float Speed = 8;
     public float Jump;
@@ -124,12 +125,8 @@ public class PlayerController : MonoBehaviour
             animator.SetTrigger("Death");
             animator.SetBool("IsDead", true);
         }
-        RestartLevel();
-    }
-
-    public void RestartLevel()
-    {
-        levelController.ReloadLevel();
+        gameOverController.PlayerDied();
+        this.enabled = false;
     }
 
     public void TakeDamage(int damage)
