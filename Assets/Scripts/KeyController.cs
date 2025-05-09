@@ -4,12 +4,12 @@ using System.Collections;
 public class KeyController : MonoBehaviour
 {
     private SpriteRenderer spriteRenderer;
-    private Collider2D collider;
+    private Collider2D KeyCollider;
 
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        collider = GetComponent<Collider2D>();
+        KeyCollider = GetComponent<Collider2D>();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -18,7 +18,7 @@ public class KeyController : MonoBehaviour
         {
             PlayerController player = collision.gameObject.GetComponent<PlayerController>();
             player.PickUpKey();
-            collider.enabled = false;
+            KeyCollider.enabled = false;
             StartCoroutine(AnimateAndDestroy());
         }
     }
