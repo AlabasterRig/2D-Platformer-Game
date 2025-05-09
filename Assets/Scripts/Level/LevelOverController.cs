@@ -7,8 +7,17 @@ public class LevelController : MonoBehaviour
     {
         if(collision.gameObject.GetComponent<PlayerController>() != null)
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-            Debug.Log("Scene Restarted");
+            int Scene = SceneManager.GetActiveScene().buildIndex;
+            if (Scene < SceneManager.sceneCountInBuildSettings)
+            {
+                LevelManager.Instance.MarkCurrentLevelComplete();
+                SceneManager.LoadScene(Scene + 1);
+
+            }
+            else
+            {
+                Debug.Log("All levels completed");
+            }
         }
     }
 

@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
-using System;
 using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Button))]
@@ -18,6 +16,20 @@ public class LevelLoader : MonoBehaviour
 
     private void OnClick()
     {
-        SceneManager.LoadScene(LevelName);
+        LevelStatus levelStatus = LevelManager.Instance.GetLevelState(LevelName);
+        switch(levelStatus)
+        {
+            case LevelStatus.Locked:
+                Debug.Log("Level is locked");
+                break;
+            case LevelStatus.Unlocked:
+                SceneManager.LoadScene(LevelName);
+                Debug.Log("Level is unlocked");
+                break;
+            case LevelStatus.Completed:
+                SceneManager.LoadScene(LevelName);
+                Debug.Log("Level is completed");
+                break;
+        }
     }
 }
