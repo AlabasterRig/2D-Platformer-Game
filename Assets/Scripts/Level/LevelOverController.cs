@@ -3,21 +3,27 @@ using UnityEngine.SceneManagement;
 
 public class LevelController : MonoBehaviour
 {
+    public GameObject levelCompleteUI;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.GetComponent<PlayerController>() != null)
+        if (collision.gameObject.GetComponent<PlayerController>() != null)
         {
-            int Scene = SceneManager.GetActiveScene().buildIndex;
-            if (Scene < SceneManager.sceneCountInBuildSettings)
-            {
-                LevelManager.Instance.MarkCurrentLevelComplete();
-                SceneManager.LoadScene(Scene + 1);
+            //int Scene = SceneManager.GetActiveScene().buildIndex;
+            //if (Scene < SceneManager.sceneCountInBuildSettings)
+            //{
+            //    LevelManager.Instance.MarkCurrentLevelComplete();
+            //    SceneManager.LoadScene(Scene + 1);
 
-            }
-            else
-            {
-                Debug.Log("All levels completed");
-            }
+            //}
+            //else
+            //{
+            //    Debug.Log("All levels completed");
+            //}
+
+            LevelManager.Instance.MarkCurrentLevelComplete();
+            levelCompleteUI.SetActive(true);
+            levelCompleteUI.GetComponent<LevelCompleteUIController>().ShowOnlyMainMenuIfLastLevel();
         }
     }
 

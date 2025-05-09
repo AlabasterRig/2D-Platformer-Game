@@ -7,7 +7,7 @@ public class LevelManager : MonoBehaviour
     private static LevelManager instance;
     public static LevelManager Instance { get { return instance; } }
 
-    public string[] Levels = { "Level1", "Level2", "Level3", "Level4" };
+    public string[] Levels = { "Level1", "Level2", "Level3", "Level4", "Level5" };
 
     private void Awake()
     {
