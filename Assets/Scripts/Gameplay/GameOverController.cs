@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class GameOverController : MonoBehaviour
 {
-    public LevelController levelController;
+    public LevelOverController levelController;
     public Button RestartButton;
     public Button QuitButton;
 

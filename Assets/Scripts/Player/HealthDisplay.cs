@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI : MonoBehaviour
+public class HealthDisplay : MonoBehaviour
 {
     public int Health;
     public int MaxHealth;

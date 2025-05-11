@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
 
     public ScoreController scoreController;
-    public LevelController levelController;
+    public LevelOverController levelController;
     public GameOverController gameOverController;
     private bool IsGrounded;
     public float Speed = 8;
@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
 
     public int Health = 3;
     public int MaxHealth = 3;
+    public bool IsDead = false;
 
     private void Awake()
     {
@@ -53,12 +54,27 @@ public class PlayerController : MonoBehaviour
         {
             Vector3 Position = transform.position;
             Position.x += Horizontal * Speed * Time.deltaTime;
+            if(Position != transform.position)
+            {
+                if(!SoundManager.Instance.PlayerFootSteps.isPlaying)
+                {
+                    SoundManager.Instance.PlayerFootSteps.Play();
+                }
+            }
+            else
+            {
+                if (SoundManager.Instance.PlayerFootSteps.isPlaying)
+                {
+                    SoundManager.Instance.PlayerFootSteps.Stop();
+                }
+            }
             transform.position = Position;
         }
 
         // Move Character Vertically
         if (Input.GetButtonDown("Jump") && IsGrounded)
         {
+            SoundManager.Instance.Play(Sounds.PlayerJump);
             rb.AddForce(new Vector2(0f, Jump), ForceMode2D.Impulse);
         }
     }
@@ -124,17 +140,31 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Player is dead");
             animator.SetTrigger("Death");
             animator.SetBool("IsDead", true);
+            animator.SetBool("Jump", false);
+            animator.SetFloat("Speed", 0.0f);
+
+            SoundManager.Instance.Play(Sounds.PlayerDeath);
+            gameOverController.PlayerDied();
+            this.enabled = false;
         }
-        gameOverController.PlayerDied();
-        this.enabled = false;
     }
 
     public void TakeDamage(int damage)
     {
         Health -= damage;
-        if (Health <= 0)
+        if (Health <= 0 && !IsDead)
         {
             KillPlayer();
+            IsDead = true;
         }
+    }
+
+    public bool CheckPlayerDeath()
+    {
+        if (Health <= 0)
+        {
+            return true;
+        }
+        return false;
     }
 }
