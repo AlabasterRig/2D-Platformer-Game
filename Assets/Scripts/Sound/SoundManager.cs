@@ -82,6 +82,8 @@ public enum Sounds
 {
     None,
     BackgroundMusic,
+    LevelComplete,
+    LevelStart,
     ButtonClick,
     PlayerMove,
     PlayerJump,

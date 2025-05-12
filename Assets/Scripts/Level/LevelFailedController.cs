@@ -7,6 +7,7 @@ public class LevelFailedController : MonoBehaviour
     {
         if(collision.gameObject.GetComponent<PlayerController>() != null)
         {
+            SoundManager.Instance.Play(Sounds.PlayerDeath);
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             Debug.Log("Player Died from falling!");
         }

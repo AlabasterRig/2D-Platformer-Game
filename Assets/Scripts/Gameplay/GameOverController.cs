@@ -17,6 +17,7 @@ public class GameOverController : MonoBehaviour
 
     private void ReturnToMainMenu()
     {
+        SoundManager.Instance.Play(Sounds.ButtonClick);
         gameObject.SetActive(false);
         SceneManager.LoadScene(0);
     }
@@ -29,5 +30,6 @@ public class GameOverController : MonoBehaviour
     public void RestartLevel()
     {
         levelController.ReloadLevel();
+        SoundManager.Instance.Play(Sounds.LevelStart);
     }
 }

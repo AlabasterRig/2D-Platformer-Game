@@ -21,7 +21,7 @@ public class LevelOverController : MonoBehaviour
             //{
             //    Debug.Log("All levels completed");
             //}
-
+            SoundManager.Instance.Play(Sounds.LevelComplete);
             LevelManager.Instance.MarkCurrentLevelComplete();
             levelCompleteUI.SetActive(true);
             levelCompleteUI.GetComponent<LevelCompleteUIController>().ShowOnlyMainMenuIfLastLevel();

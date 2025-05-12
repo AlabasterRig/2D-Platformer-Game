@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     public Vector2 BoxCollisionInitialSize;
     public Transform GroundCheck;
     public LayerMask GroundLayer;
+    public GameObject PlayerDeathEffect;
     private Rigidbody2D rb;
 
     public ScoreController scoreController;
@@ -144,6 +145,8 @@ public class PlayerController : MonoBehaviour
             animator.SetFloat("Speed", 0.0f);
 
             SoundManager.Instance.Play(Sounds.PlayerDeath);
+            PlayerDeathEffect.SetActive(true);
+            PlayerDeathEffect.GetComponent<ParticleSystem>().Play();
             gameOverController.PlayerDied();
             this.enabled = false;
         }

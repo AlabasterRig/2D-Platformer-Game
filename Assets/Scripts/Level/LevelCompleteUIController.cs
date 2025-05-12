@@ -29,6 +29,7 @@ public class LevelCompleteUIController : MonoBehaviour
         {
             LevelManager.Instance.MarkCurrentLevelComplete();
             SceneManager.LoadScene(Scene + 1);
+            SoundManager.Instance.Play(Sounds.LevelStart);
 
         }
         else
