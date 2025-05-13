@@ -139,7 +139,7 @@ GameObject:
   - component: {fileID: 1304052958347312484}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -331,6 +331,7 @@ MonoBehaviour:
   GroundLayer:
     serializedVersion: 2
     m_Bits: 9
+  scoreController: {fileID: 0}
   Speed: 8
   Jump: 4
   GroundCheckRadius: 0.2

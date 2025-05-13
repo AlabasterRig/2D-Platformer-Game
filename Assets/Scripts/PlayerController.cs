@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     public LayerMask GroundLayer;
     private Rigidbody2D rb;
 
+    public ScoreController scoreController;
     private bool IsGrounded;
     public float Speed = 8;
     public float Jump;
@@ -104,5 +105,10 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetBool("Jump", false);
         }
+    }
+
+    public void PickUpKey()
+    {
+        scoreController.IncreaseScore(10);
     }
 }
