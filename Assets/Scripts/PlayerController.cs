@@ -14,10 +14,14 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
 
     public ScoreController scoreController;
+    public LevelController levelController;
     private bool IsGrounded;
     public float Speed = 8;
     public float Jump;
     public float GroundCheckRadius = 0.2f;
+
+    public int Health = 3;
+    public int MaxHealth = 3;
 
     private void Awake()
     {
@@ -110,5 +114,30 @@ public class PlayerController : MonoBehaviour
     public void PickUpKey()
     {
         scoreController.IncreaseScore(10);
+    }
+
+    public void KillPlayer()
+    {
+        if (!animator.GetBool("IsDead"))
+        {
+            Debug.Log("Player is dead");
+            animator.SetTrigger("Death");
+            animator.SetBool("IsDead", true);
+        }
+        RestartLevel();
+    }
+
+    public void RestartLevel()
+    {
+        levelController.ReloadLevel();
+    }
+
+    public void TakeDamage(int damage)
+    {
+        Health -= damage;
+        if (Health <= 0)
+        {
+            KillPlayer();
+        }
     }
 }
