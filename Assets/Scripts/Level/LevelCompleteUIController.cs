@@ -17,16 +17,19 @@ public class LevelCompleteUIController : MonoBehaviour
 
     private void ReturnToMainMenu()
     {
+        SoundManager.Instance.Play(Sounds.ButtonClick);
         SceneManager.LoadScene(0);
     }
 
     private void NextLevel()
     {
+        SoundManager.Instance.Play(Sounds.ButtonClick);
         int Scene = SceneManager.GetActiveScene().buildIndex;
         if (Scene + 1 < SceneManager.sceneCountInBuildSettings)
         {
             LevelManager.Instance.MarkCurrentLevelComplete();
             SceneManager.LoadScene(Scene + 1);
+            SoundManager.Instance.Play(Sounds.LevelStart);
 
         }
         else

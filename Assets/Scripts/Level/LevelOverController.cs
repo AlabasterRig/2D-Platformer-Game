@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class LevelController : MonoBehaviour
+public class LevelOverController : MonoBehaviour
 {
     public GameObject levelCompleteUI;
 
@@ -20,7 +20,7 @@ public class LevelController : MonoBehaviour
             //{
             //    Debug.Log("All levels completed");
             //}
-
+            SoundManager.Instance.Play(Sounds.LevelComplete);
             LevelManager.Instance.MarkCurrentLevelComplete();
             levelCompleteUI.SetActive(true);
             levelCompleteUI.GetComponent<LevelCompleteUIController>().ShowOnlyMainMenuIfLastLevel();
