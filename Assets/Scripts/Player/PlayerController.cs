@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 
 public class PlayerController : MonoBehaviour
 {
-    public Animator animator; 
+    public Animator animator;
     public BoxCollider2D boxCollider;
     public Vector2 BoxCollisionInitialOffset;
     public Vector2 BoxCollisionInitialSize;
@@ -18,8 +18,11 @@ public class PlayerController : MonoBehaviour
     public LevelOverController levelController;
     public GameOverController gameOverController;
     private bool IsGrounded;
+    private bool WasGrounded = true;
     public float Speed = 8;
     public float Jump;
+    private int JumpCount = 0;
+    public int MaxJumpCount = 2;
     public float GroundCheckRadius = 0.2f;
 
     public int Health = 3;
@@ -41,6 +44,10 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         IsGrounded = Physics2D.OverlapCircle(GroundCheck.position, GroundCheckRadius, GroundLayer);
+        if (IsGrounded)
+        {
+            JumpCount = 0;
+        }
         float Horizontal = Input.GetAxisRaw("Horizontal");
         MoveCharacter(Horizontal);
         PlayerMovementAnimation(Horizontal);
@@ -51,32 +58,31 @@ public class PlayerController : MonoBehaviour
     private void MoveCharacter(float Horizontal)
     {
         // Move Character Horizontally
-        if (IsGrounded)
+        Vector3 Position = transform.position;
+        Position.x += Horizontal * Speed * Time.deltaTime;
+        if (Position != transform.position)
         {
-            Vector3 Position = transform.position;
-            Position.x += Horizontal * Speed * Time.deltaTime;
-            if(Position != transform.position)
+            if (!SoundManager.Instance.PlayerFootSteps.isPlaying)
             {
-                if(!SoundManager.Instance.PlayerFootSteps.isPlaying)
-                {
-                    SoundManager.Instance.PlayerFootSteps.Play();
-                }
+                SoundManager.Instance.PlayerFootSteps.Play();
             }
-            else
-            {
-                if (SoundManager.Instance.PlayerFootSteps.isPlaying)
-                {
-                    SoundManager.Instance.PlayerFootSteps.Stop();
-                }
-            }
-            transform.position = Position;
         }
+        else
+        {
+            if (SoundManager.Instance.PlayerFootSteps.isPlaying)
+            {
+                SoundManager.Instance.PlayerFootSteps.Stop();
+            }
+        }
+        transform.position = Position;
 
         // Move Character Vertically
-        if (Input.GetButtonDown("Jump") && IsGrounded)
+        if (Input.GetButtonDown("Jump") && JumpCount < MaxJumpCount)
         {
             SoundManager.Instance.Play(Sounds.PlayerJump);
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
             rb.AddForce(new Vector2(0f, Jump), ForceMode2D.Impulse);
+            JumpCount++;
         }
     }
 
@@ -98,7 +104,7 @@ public class PlayerController : MonoBehaviour
     private void PlayerCrouchAnimation()
     {
         bool Crouch = Input.GetKey(KeyCode.LeftControl);
-        if(Crouch)
+        if (Crouch)
         {
             float NewOffsetY = 0.60345f;
             float NewOffsetX = 0.027414f;
@@ -119,14 +125,30 @@ public class PlayerController : MonoBehaviour
 
     private void PlayerJumpAnimation()
     {
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump") && JumpCount < MaxJumpCount)
         {
-            animator.SetBool("Jump", true);
+            animator.SetTrigger("JumpStart");
+        }
+        if (!IsGrounded)
+        {
+            if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Jumping") && !animator.GetBool("IsJumping"))
+            {
+                animator.SetBool("IsJumping", true);
+            }
         }
         else
         {
-            animator.SetBool("Jump", false);
+            if (!WasGrounded && IsGrounded)
+            {
+                animator.SetTrigger("Land");
+            }
+
+            if (animator.GetBool("IsJumping"))
+            {
+                animator.SetBool("IsJumping", false);
+            }
         }
+        WasGrounded = IsGrounded;
     }
 
     public void PickUpKey()
@@ -141,7 +163,6 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Player is dead");
             animator.SetTrigger("Death");
             animator.SetBool("IsDead", true);
-            animator.SetBool("Jump", false);
             animator.SetFloat("Speed", 0.0f);
 
             SoundManager.Instance.Play(Sounds.PlayerDeath);

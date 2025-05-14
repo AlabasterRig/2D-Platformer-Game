@@ -4858,7 +4858,7 @@ Transform:
   m_GameObject: {fileID: 1204848560187700578}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.1, z: 0.08033462}
+  m_LocalPosition: {x: 0, y: -0.085, z: 0.08033462}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4890,7 +4890,7 @@ Transform:
   m_GameObject: {fileID: 2842646955798652465}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: 0, y: 2, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4931,7 +4931,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 6.316375
+  orthographic size: 6
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -5079,7 +5079,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0
-  m_GravityScale: 1
+  m_GravityScale: 1.5
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -5156,13 +5156,14 @@ MonoBehaviour:
   GroundCheck: {fileID: 1135336993472058050}
   GroundLayer:
     serializedVersion: 2
-    m_Bits: 9
+    m_Bits: 8
   PlayerDeathEffect: {fileID: 783877124980142937}
   scoreController: {fileID: 0}
   levelController: {fileID: 0}
   gameOverController: {fileID: 0}
   Speed: 8
-  Jump: 4
+  Jump: 6
+  MaxJumpCount: 2
   GroundCheckRadius: 0.2
   Health: 3
   MaxHealth: 3
