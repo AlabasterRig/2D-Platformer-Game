@@ -6906,12 +6906,12 @@ PrefabInstance:
         type: 3}
       propertyPath: PointA
       value: 
-      objectReference: {fileID: 1735478601}
+      objectReference: {fileID: 1949467455}
     - target: {fileID: 8823261069720500319, guid: a10b1136d0c20064d91eb975ee0b6072,
         type: 3}
       propertyPath: PointB
       value: 
-      objectReference: {fileID: 735828255}
+      objectReference: {fileID: 1860145158}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6956,9 +6956,9 @@ RectTransform:
   - {fileID: 1105713492}
   m_Father: {fileID: 276741246}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 643, y: -290}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &882358784
@@ -7344,12 +7344,12 @@ PrefabInstance:
         type: 3}
       propertyPath: PointA
       value: 
-      objectReference: {fileID: 1735478601}
+      objectReference: {fileID: 1552742272}
     - target: {fileID: 8823261069720500319, guid: a10b1136d0c20064d91eb975ee0b6072,
         type: 3}
       propertyPath: PointB
       value: 
-      objectReference: {fileID: 735828255}
+      objectReference: {fileID: 1321273627}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
